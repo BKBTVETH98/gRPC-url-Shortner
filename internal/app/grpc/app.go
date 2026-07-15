@@ -58,8 +58,16 @@ func (a *App) Run() error {
 	return nil
 }
 
-func (a *App) Stop() {
+func (a *App) Stop() error {
 	const op = "grpcapp.App.Stop"
-	a.log.With(slog.String("op", op)).Info("stopping gRPC server", slog.Int("Port", a.port))
+
+	a.log.Info(
+		"stopping gRPC server",
+		slog.String("op", op),
+		slog.Int("Port", a.port),
+	)
+
 	a.gRPCServer.GracefulStop()
+
+	return nil
 }

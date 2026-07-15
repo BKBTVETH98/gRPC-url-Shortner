@@ -3,8 +3,10 @@ package main
 import (
 	"log/slog"
 	"os"
+	"os/signal"
 	"sso/server/internal/app"
 	"sso/server/internal/config"
+	"syscall"
 )
 
 const (
@@ -32,6 +34,23 @@ func main() {
 	//TODO: инициализация app
 
 	//TODO: запуск app
+
+	//TODO: graceful shutdown
+
+	stop := make(chan os.Signal, 1)
+
+	signal.Notify(
+		stop,
+		os.Interrupt,пп
+		syscall.SIGTERM,
+	)
+
+	<-stop // ждём Ctrl+C или SIGTERM
+
+	if err := application.GRPC.Stop(); err != nil {
+		log.Error("failed to gracefully shutdown gRPC server", "error", err)
+	}
+
 }
 
 func setupLogger(env string) *slog.Logger {

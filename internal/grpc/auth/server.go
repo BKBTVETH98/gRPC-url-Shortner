@@ -8,7 +8,7 @@ import (
 )
 
 type serverAPI struct {
-	ssov1.UnimplementedAuthServer
+	ssov1.UnimplementedAuthServer // структура для реализации интерфейса AuthServer
 }
 
 func Register(gRPC *grpc.Server) {
