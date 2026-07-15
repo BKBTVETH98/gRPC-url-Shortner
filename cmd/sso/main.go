@@ -1,9 +1,10 @@
 package main
 
 import (
-	"SSO/sso/internal/config"
 	"log/slog"
 	"os"
+	"sso/server/internal/app"
+	"sso/server/internal/config"
 )
 
 const (
@@ -17,16 +18,18 @@ func main() {
 
 	cfg := config.MustLoad()
 
-
-
 	//TODO: инициализация логгера
 	log := setupLogger(cfg.Env)
 
+	application := app.New(
+		log,
+		cfg.GRPC.Port,
+		cfg.StoragePath,
+		cfg.TokenTTL,
+	)
 
+	application.GRPC.MustRun()
 	//TODO: инициализация app
-
-	
-
 
 	//TODO: запуск app
 }
@@ -47,8 +50,6 @@ func setupLogger(env string) *slog.Logger {
 		log = slog.New(
 			slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}),
 		)
-	default:
-		panic("unknown env")
 	}
 	return log
 }
