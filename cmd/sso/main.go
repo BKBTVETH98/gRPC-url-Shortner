@@ -30,7 +30,12 @@ func main() {
 		cfg.TokenTTL,
 	)
 
-	application.GRPC.MustRun()
+	go func() {
+
+		application.GRPC.MustRun()
+
+	}()
+
 	//TODO: инициализация app
 
 	//TODO: запуск app
@@ -41,15 +46,15 @@ func main() {
 
 	signal.Notify(
 		stop,
-		os.Interrupt,пп
 		syscall.SIGTERM,
+		syscall.SIGINT,
 	)
 
 	<-stop // ждём Ctrl+C или SIGTERM
 
-	if err := application.GRPC.Stop(); err != nil {
-		log.Error("failed to gracefully shutdown gRPC server", "error", err)
-	}
+	application.GRPC.Stop() //stopping gRPC server
+
+	slog.Info("gracefully shutdown gRPC server")
 
 }
 
