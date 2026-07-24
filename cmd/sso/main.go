@@ -33,6 +33,7 @@ func main() {
 		cfg.TokenTTL,
 	)
 
+
 	go func() {
 
 		application.GRPC.MustRun()

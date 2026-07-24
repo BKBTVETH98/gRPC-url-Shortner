@@ -1,4 +1,4 @@
-package migrator
+package main
 
 import (
 	"errors"
@@ -14,10 +14,11 @@ func main() {
 
 	var storagePath, migrationPath, migrationTable string
 
-	flag.StringVar(&storagePath, "storage-path", "", "")
+	flag.StringVar(&storagePath, "storage-path", "", "path to storage")
 	flag.StringVar(&migrationPath, "migrations-path", "", "path to migrations")
 	flag.StringVar(&migrationTable, "migrations-table", "migrations", "name of migration table")
 
+	flag.Parse()
 	if storagePath == "" {
 		panic("storage-path is required")
 	}
