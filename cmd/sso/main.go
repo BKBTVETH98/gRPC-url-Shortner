@@ -23,6 +23,9 @@ func main() {
 	//TODO: инициализация логгера
 	log := setupLogger(cfg.Env)
 
+	// authService := auth.New(log)
+
+	//TODO: реализовать Auth services
 	application := app.New(
 		log,
 		cfg.GRPC.Port,
